@@ -4,7 +4,9 @@ const { config } = require('./config/index')
 const moviesApi = require('./routes/movies.js')
 const notFoundHandler = require('./utils/middleware/notFoundHandler')
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middleware/errorHandlers')
+const cors = require('cors')
 
+app.use(cors())
 // Body parser
 app.use(express.json())
 
