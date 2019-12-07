@@ -10,9 +10,9 @@
         "dest": "/index.js"
     }],
     "env": {
-        "DB_USER": "llv-user",
-        "DB_PASSWORD": "llv-password",
-        "DB_HOST": "llv-host",
-        "DB_NAME": "llv-dbname"
+        "DB_USER": "@llv-user",
+        "DB_PASSWORD": "@llv-password",
+        "DB_HOST": "@llv-host",
+        "DB_NAME": "@llv-dbname"
     }
 }
