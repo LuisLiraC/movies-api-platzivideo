@@ -10,9 +10,9 @@
         "dest": "/index.js"
     }],
     "env": {
-        "DB_USER": "@platzivideos-db-user",
-        "DB_PASSWORD": "platzivideos-db-password",
-        "DB_HOST": "platzivideos-db-host",
-        "DB_NAME": "platzivideos-db-name"
+        "DB_USER": "llv-user",
+        "DB_PASSWORD": "llv-password",
+        "DB_HOST": "llv-host",
+        "DB_NAME": "llv-dbname"
     }
 }
