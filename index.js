@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const { config } = require('./config/index')
 const moviesApi = require('./routes/movies.js')
+const userMoviesApi = require('./routes/userMovies.js')
+const authApi = require('./routes/auth.js')
 const notFoundHandler = require('./utils/middleware/notFoundHandler')
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middleware/errorHandlers')
 const cors = require('cors')
@@ -11,7 +13,9 @@ app.use(cors())
 app.use(express.json())
 
 // routes
+authApi(app)
 moviesApi(app)
+userMoviesApi(app)
 
 // Catch 404
 app.use(notFoundHandler)

@@ -28,11 +28,6 @@ class MoviesService {
         return updatedMovieId || {}
     }
 
-    async patchMovie() {
-        const patchedMovieId = await Promise.resolve(moviesMock[0].id)
-        return patchedMovieId || {}
-    }
-
     async deleteMovie({ movieId }) {
         const deletedMovieId = await this.mongoDB.delete(this.collection, movieId)
         return deletedMovieId || {}
