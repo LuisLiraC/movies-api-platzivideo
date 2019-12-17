@@ -7,10 +7,12 @@ const authApi = require('./routes/auth.js')
 const notFoundHandler = require('./utils/middleware/notFoundHandler')
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middleware/errorHandlers')
 const cors = require('cors')
+const helmet = require('helmet')
 
 app.use(cors())
 // Body parser
 app.use(express.json())
+app.use(helmet())
 
 // routes
 authApi(app)

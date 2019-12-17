@@ -6,7 +6,7 @@ const ApiKeysService = require('../services/apiKeys')
 const { config } = require('../config/index')
 const UsersService = require('../services/users')
 const validationHandler = require('../utils/middleware/validationHandler')
-const { createUserSchema } = require('../utils/schemas/users')
+const { createUserSchema, createProviderUserSchema } = require('../utils/schemas/users')
 
 // Basic strategy
 require('../utils/auth/strategies/basic')
@@ -38,7 +38,6 @@ function authApi(app) {
 
                     const apiKey = await apiKeysService.getApiKey({ token: apiKeyToken })
 
-                    
                     if (!apiKey) {
                         next(boom.unauthorized())
                     }
@@ -75,20 +74,53 @@ function authApi(app) {
 
             const userExists = await usersService.verifyUserExists(user)
 
-            if(userExists) {
+            if (userExists) {
                 res.send({
                     message: 'user already exists'
                 })
                 return
             }
 
-            const creadtedUserId = await usersService.createUser({ user })
+            const createdUserId = await usersService.createUser({ user })
             res.status(201).json({
-                data: creadtedUserId,
+                data: createdUserId,
                 message: 'user created'
             })
         } catch (err) {
             next(err)
+        }
+    })
+
+    router.post('/sign-provider', validationHandler(createProviderUserSchema), async function (req, res, next) {
+        const { body } = req
+        const { apiKeyToken, ...user } = body
+
+        if (!apiKeyToken) {
+            next(boom.unauthorized('apiKeyToken is required'))
+        }
+
+        try {
+            const queriedUser = await usersService.getOrCreateuser({ user })
+            const apiKey = await apiKeysService.getApiKey({ token: apiKeyToken })
+
+            if (!apiKey) {
+                next(boom.unauthorized())
+            }
+
+            const { _id: id, name, email } = queriedUser
+
+            const payload = {
+                sub: id,
+                name,
+                email,
+                scopes: apiKey.scopes
+            }
+
+            const token = jwt.sign(payload, config.authJwtSecret, { expiresIn: '15m' })
+
+            res.status(200).json({ token, user: { id, name, email } })
+        } catch (error) {
+            next(error)
         }
     })
 }
