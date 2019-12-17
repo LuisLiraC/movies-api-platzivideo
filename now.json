@@ -13,6 +13,7 @@
         "DB_USER": "@llv-user",
         "DB_PASSWORD": "@llv-password",
         "DB_HOST": "@llv-host",
-        "DB_NAME": "@llv-dbname"
+        "DB_NAME": "@llv-dbname",
+        "AUTH_JWT_SECRET": "@llv-jwt"
     }
 }
